@@ -1,0 +1,8 @@
+{
+  "realm": "treasure",
+  "auth-server-url": "http://185.12.95.242/auth",
+  "ssl-required": "external",
+  "resource": "frontend",
+  "public-client": true,
+  "confidential-port": 0
+}
