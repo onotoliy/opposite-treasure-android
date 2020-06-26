@@ -1,10 +1,28 @@
 package com.github.onotoliy.opposite.treasure.auth
 
+import android.accounts.Account
+import android.accounts.AccountManager
+import android.os.AsyncTask
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.net.HttpURLConnection
 import java.net.URL
 
+const val ACCOUNT_TYPE = "com.github.onotoliy.opposite.treasure"
+
+fun AccountManager.addTreasureAccount(username: String, password: String) =
+    addAccountExplicitly(Account(username, ACCOUNT_TYPE), password, null)
+
 fun authToken() = authToken("a.pohresnyj", "1")
+
+fun asyncAuthToken(username: String, password: String): String? {
+    return Auth().execute(username, password).get()
+}
+
+class Auth : AsyncTask<String, String, String>() {
+    override fun doInBackground(vararg params: String): String {
+        return authToken(params[0], params[1])
+    }
+}
 
 fun authToken(username: String, password: String): String {
     val url = URL("http://185.12.95.242/auth/realms/treasure/protocol/openid-connect/token")

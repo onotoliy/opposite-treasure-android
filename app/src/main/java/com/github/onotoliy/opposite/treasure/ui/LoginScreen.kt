@@ -23,12 +23,12 @@ import androidx.ui.unit.TextUnit
 import androidx.ui.unit.dp
 import com.github.onotoliy.opposite.treasure.R
 import com.github.onotoliy.opposite.treasure.Screen
-import com.github.onotoliy.opposite.treasure.auth.authToken
+import com.github.onotoliy.opposite.treasure.auth.asyncAuthToken
 
 @Preview
 @Composable
 fun LoginScreen(
-    navigateTo: (Screen) -> Unit = {}
+    success: (String, String) -> Unit
 ) {
     val login = state(init = { TextFieldValue("") })
     val password = state(init = { TextFieldValue("") })
@@ -82,11 +82,8 @@ fun LoginScreen(
         Button(
             modifier = Modifier.padding(5.dp),
             onClick = {
-                authToken(
-                    login.value.text,
-                    password.value.text
-                )?.let {
-                    navigateTo(Screen.HomeUI)
+                asyncAuthToken(login.value.text, password.value.text).let {
+                    success(login.value.text, password.value.text)
                 }
             }) {
             Text(text = "Войти")
