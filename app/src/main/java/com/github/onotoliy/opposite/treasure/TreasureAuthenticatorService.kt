@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 
 class TreasureAuthenticatorService : Service() {
+
     private lateinit var authenticator: TreasureAccountAuthenticator
 
     override fun onCreate() {
@@ -12,7 +13,5 @@ class TreasureAuthenticatorService : Service() {
         authenticator = TreasureAccountAuthenticator(this)
     }
 
-    override fun onBind(intent: Intent?): IBinder {
-        return authenticator.iBinder
-    }
+    override fun onBind(intent: Intent?): IBinder = authenticator.iBinder
 }

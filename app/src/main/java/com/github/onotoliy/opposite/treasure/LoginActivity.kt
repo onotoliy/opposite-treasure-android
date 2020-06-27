@@ -1,15 +1,18 @@
 package com.github.onotoliy.opposite.treasure
 
-import android.accounts.Account
 import android.accounts.AccountAuthenticatorResponse
 import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.ui.core.setContent
-import com.github.onotoliy.opposite.treasure.auth.ACCOUNT_TYPE
+import com.github.onotoliy.opposite.treasure.auth.addTreasureAccount
+import com.github.onotoliy.opposite.treasure.auth.asyncAuthToken
 import com.github.onotoliy.opposite.treasure.ui.LoginScreen
+import java.nio.charset.StandardCharsets
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,7 +35,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,15 +42,28 @@ class LoginActivity : AppCompatActivity() {
 
         setContent {
             LoginScreen() { username, password ->
-                manager.addAccountExplicitly(Account(username, ACCOUNT_TYPE), password, null)
 
-                manager.getAccountsByType(ACCOUNT_TYPE).forEach {
-                    println(it.name)
-                }
+                manager.addTreasureAccount(username, password, asyncAuthToken(username, password)?.let {
+                    val split: List<String> = it.split(".")
+                    Log.d("JWT_DECODED", "Header: " + getJson(split[0]))
+                    Log.d("JWT_DECODED", "Body: " + getJson(split[1]))
+
+
+
+                    Bundle()
+                })
 
                 val myIntent = Intent(this, MainActivity::class.java)
                 startActivity(myIntent)
             }
         }
+
+
+    }
+
+    fun getJson(strEncoded: String): String {
+        val decodedBytes1: ByteArray = Base64.decode(strEncoded.toByteArray(StandardCharsets.ISO_8859_1), Base64.URL_SAFE)
+        val decodedBytes2: ByteArray = Base64.decode(strEncoded.toByteArray(StandardCharsets.US_ASCII), Base64.URL_SAFE)
+        return String(decodedBytes1)
     }
 }

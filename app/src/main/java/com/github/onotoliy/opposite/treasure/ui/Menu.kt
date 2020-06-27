@@ -77,43 +77,33 @@ private fun LeftMenu() {
 
 @Composable
 private fun BottomMenu(navigateTo: (Screen) -> Unit = {}) {
-    Box(modifier = Modifier.padding(Dp(8f))) {
+    FlowRow(
+        mainAxisSize = SizeMode.Expand
+    ) {
         FlowRow(
-            mainAxisAlignment = MainAxisAlignment.Start,
-            mainAxisSize = SizeMode.Expand,
-            crossAxisSpacing = Dp(12f),
-            mainAxisSpacing = Dp(8f)
+            mainAxisAlignment = MainAxisAlignment.Start
         ) {
             IconButton(
-                onClick = {
-                    navigateTo(Screen.HomeUI)
-                },
-                icon = {
-                    Icon(asset = Icons.Filled.Home)
-                }
+                onClick = { navigateTo(Screen.HomeUI) },
+                icon = { Icon(asset = Icons.Filled.Home) }
             )
             IconButton(
-                onClick = {
-                    navigateTo(Screen.DepositPageUI)
-                },
-                icon = {
-                    Icon(asset = Icons.Filled.Person)
-                }
+                onClick = { navigateTo(Screen.DepositPageUI) },
+                icon = { Icon(asset = Icons.Filled.Person) }
             )
         }
 
         FlowRow(
-            mainAxisAlignment = MainAxisAlignment.End,
-            mainAxisSize = SizeMode.Expand,
-            crossAxisSpacing = Dp(12f),
-            mainAxisSpacing = Dp(8f)
+            mainAxisAlignment = MainAxisAlignment.End
         ) {
-            IconButton(onClick = {}, icon = {
-                Icon(asset = Icons.Filled.List)
-            })
-            IconButton(onClick = {}, icon = {
-                Icon(asset = Icons.Filled.Info)
-            })
+            IconButton(
+                onClick = {},
+                icon = { Icon(asset = Icons.Filled.List) }
+            )
+            IconButton(
+                onClick = {},
+                icon = { Icon(asset = Icons.Filled.Info) }
+            )
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.github.onotoliy.opposite.treasure.ui
 
+import android.accounts.AccountManager
 import androidx.compose.Composable
 import androidx.ui.core.Modifier
 import androidx.ui.foundation.Text
@@ -13,10 +14,10 @@ import com.github.onotoliy.opposite.treasure.repositories.CashboxRepository
 import com.github.onotoliy.opposite.treasure.repositories.DepositRepository
 
 @Composable
-fun DepositScreen(deposit: String) {
+fun DepositScreen(manager: AccountManager, deposit: String) {
     deposit(
-        DepositRepository.get(deposit),
-        CashboxRepository.get()
+        DepositRepository.get(manager, deposit),
+        CashboxRepository.get(manager)
     )
 }
 

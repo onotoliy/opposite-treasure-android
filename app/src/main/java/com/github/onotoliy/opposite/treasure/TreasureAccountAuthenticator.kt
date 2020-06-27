@@ -43,7 +43,6 @@ class TreasureAccountAuthenticator(private val context: Context): AbstractAccoun
             putString(AccountManager.KEY_ACCOUNT_TYPE, account?.type)
             putString(AccountManager.KEY_AUTHTOKEN, token)
         }
-
     }
 
     override fun addAccount(

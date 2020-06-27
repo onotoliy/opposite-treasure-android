@@ -1,5 +1,6 @@
 package com.github.onotoliy.opposite.treasure
 
+import android.accounts.AccountManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            AppContent()
+            AppContent(AccountManager.get(applicationContext))
         }
     }
 }
@@ -29,7 +30,7 @@ sealed class Screen {
 }
 
 @Composable
-private fun AppContent() {
+private fun AppContent(manager: AccountManager) {
     val state = state<Screen> {
         Screen.HomeUI
     }
@@ -44,9 +45,9 @@ private fun AppContent() {
             Crossfade(state.value) { screen ->
                 Surface {
                     when (screen) {
-                        is Screen.DepositPageUI -> DepositPageScreen(navigateTo)
-                        is Screen.HomeUI -> HomeScreen()
-                        is Screen.DepositUI -> DepositScreen(screen.deposit)
+                        is Screen.DepositPageUI -> DepositPageScreen(manager, navigateTo)
+                        is Screen.HomeUI -> HomeScreen(manager)
+                        is Screen.DepositUI -> DepositScreen(manager, screen.deposit)
                     }
                 }
             }

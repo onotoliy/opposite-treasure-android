@@ -1,5 +1,6 @@
 package com.github.onotoliy.opposite.treasure.ui
 
+import android.os.Bundle
 import androidx.compose.Composable
 import androidx.compose.state
 import androidx.ui.core.Alignment
@@ -22,13 +23,13 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.TextUnit
 import androidx.ui.unit.dp
 import com.github.onotoliy.opposite.treasure.R
-import com.github.onotoliy.opposite.treasure.Screen
 import com.github.onotoliy.opposite.treasure.auth.asyncAuthToken
+import com.github.onotoliy.opposite.treasure.auth.toBundle
 
 @Preview
 @Composable
 fun LoginScreen(
-    success: (String, String) -> Unit
+    success: (String, String, Bundle) -> Unit
 ) {
     val login = state(init = { TextFieldValue("") })
     val password = state(init = { TextFieldValue("") })
@@ -82,8 +83,8 @@ fun LoginScreen(
         Button(
             modifier = Modifier.padding(5.dp),
             onClick = {
-                asyncAuthToken(login.value.text, password.value.text).let {
-                    success(login.value.text, password.value.text)
+                asyncAuthToken(login.value.text, password.value.text)?.let {
+                    success(login.value.text, password.value.text, it.toBundle())
                 }
             }) {
             Text(text = "Войти")
